@@ -9,15 +9,10 @@ function setURL(endpoint){
 }
 
 export async function GetToken(login, password){
-    const resp = await fetch(setURL("/auth-token/"),{
-        method:"POST",
-        body:new URLSearchParams({
-            "username":login,
-            "password":password
-        })
+    console.log(login,password)
+    return await new Promise((resolve)=>{
+        resolve({token:"123"})
     })
-
-    return await resp.json()
 }
 
 export async function GetState(token){
@@ -34,13 +29,30 @@ export async function GetState(token){
 }
 
 export async function GetSettings(token){
-    const resp = await fetch(setURL("/api/v1/AllSettings"),{
-        method:"GET",
-        headers:{
-            "Authorization":`Token ${token}`
-        }
+    console.log(token)
+    return await new Promise((resolve)=>{
+        resolve({
+            listenForListings:false,
+            listenForFixedListings:true,
+            baseSymbols:[
+                {id:"BTC",checkedForListing:true},
+                {id:"USDT", checkedForListing:false},
+                {id:"DOGE",checkedForListing:false}
+            ],
+            pairs:[
+                {base:"USDT", quote:"CHTX"}
+            ]
+            
+        })
     })
-    return await resp.json()
+
+}
+
+export async function GetFututeListings(token){
+    console.log(token)
+    return await new Promise((resolve)=>{
+        resolve(["YIN","OLY","CHTX","NUM","POC","GENE","CRA","GOLD","MYRA","DRATE","NTX","MELD","IONX"])
+    })
 
 }
 

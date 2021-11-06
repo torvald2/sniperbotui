@@ -6,7 +6,7 @@
           b-col(cols=3)
             b-avatar(rounded)
           b-col
-            h2 Trade Bot
+            h2 Spinner Bot
       b-card-text
         b-form
           b-form-group(label="Email:" label-for="mail_input" description="Введите валидный e-mail")
