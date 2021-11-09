@@ -1,9 +1,18 @@
 <template lang="pug">
   b-navbar(type="dark" variant="info")
     b-navbar-brand(href="/")
-      img(src="https://placekitten.com/g/30/30" alt="Kitten")
+      b-icon( icon="arrow-clockwise")
       span.ml-2 Spinner bot
-    b-nav-text      
+    b-nav-text 
+      | Ручные закупки: {{profit.manualBidCount }}
+      span(variant="success" v-if="profit.manualProfit >0") ({{profit.manualProfit| formatSum}}) 
+      span(variant="danger" v-if="profit.manualProfit <0") ({{profit.manualProfit| formatSum}})
+      | Авто закупки: {{profit.autoBidCount }}
+      span(variant="success" v-if="profit.autoProfit >0") ({{profit.autoProfit| formatSum}}) 
+      span(variant="danger" v-if="profit.autoProfit <0") ({{profit.autoProfit| formatSum}})  
+      | Результат итого: 
+      span(variant="success" v-if="profit.manualProfit +profit.autoProfit  >0") ({{profit.autoProfit+profit.manualProfit| formatSum}}) 
+      span(variant="danger" v-if="profit.manualProfit +profit.autoProfit <0") ({{profit.autoProfit + profit.manualProfit| formatSum}})   
     b-nav-form.ml-auto
       b-button(variant="info" @click="goToSettings").mr-5
         b-icon(icon="gear-fill" font-scale="1.5" )
@@ -17,7 +26,8 @@
 <script>
 import { mapMutations } from 'vuex'
 import {DeleteToken} from "../services/cookie"
-import {mapState} from "vuex"
+import {mapGetters} from "vuex"
+import Formaters from "../mixins/formaters"
 
 
 export default {
@@ -25,12 +35,11 @@ export default {
   components:{
   },
   computed: {
-    ...mapState(["login"])
+    ...mapGetters(["profit"])
    
   
   },
   methods: {
-    ...mapMutations(["clearCreds"]),
     logOut(){
       DeleteToken()
       this.clearCreds()
@@ -39,7 +48,8 @@ export default {
     goToSettings(){
       this.$router.push("Settings")
     }
-  }
+  },
+  mixins:[Formaters]
 }
 </script>
 

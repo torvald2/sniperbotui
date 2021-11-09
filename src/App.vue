@@ -16,10 +16,8 @@ export default {
   },
   methods:{
     ...mapMutations(["readToken"]),
-    ...mapActions(["getBotSettings","actFutureListings"]),
     async initState(){
-      await this.getBotSettings()
-       await this.actFutureListings()
+     
 
     }
   },
@@ -27,9 +25,10 @@ export default {
     this.readToken()
     if (!this.$store.getters.isAuthorized){
         this.$router.push("Login")
-    } 
-    await this.getBotSettings()
-    await this.actFutureListings()
+    } else {
+      await this.initState()
+    }
+     
   },
 
 

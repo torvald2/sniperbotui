@@ -42,41 +42,17 @@ export default new Vuex.Store({
       state.token = data.token
       state.login = data.login
     },
-    setBotSettings(state,settings){
-      state.botSettings = settings
-    },
-    setListenForListings(state, val){
-      state.botSettings.listenForListings=val
-      state.botSettings.listenForFixedListings=!val
-    },
-    setListenForFixedListings(state, val){
-      state.botSettings.listenForListings=!val
-      state.botSettings.listenForFixedListings=val
-    },
-    setSymbolValue(state, payload){
-      state.botSettings.baseSymbols[payload.id][payload.key] = payload.val
-    },
-    setFutureListings(state,payload){
-      state.futureListings = payload
-    },
-    addPair(state,pair){
-      state.botSettings.pairs.push(pair)
-    },
-
+    
   
 
   },
   actions: {
-    async getBotSettings(context){
-      context.commit("setBotSettings", await GetSettings(context.state.token))
-    },
-    async actFutureListings(context){
-      context.commit("setFutureListings", await GetFututeListings(context.state.token))
-    },
+
     
   },
   getters: {
     isAuthorized: state => state.token.length > 0,
+    profit: state => {manualProfit:12845678, manualBidCount:10, autoBidCount:4, autoProfit:-12345848}
     
   },
 })
