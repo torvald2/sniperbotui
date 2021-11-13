@@ -17,7 +17,7 @@
                   b-icon(icon="gear-fill"  )
                 b-button(variant="success" @click="openFilter" size="sm" )
                   b-icon(icon="filter")
-      b-modal(id="auto-bil-settings-modal" title="Настройки авто закупок" size="lg")
+      b-modal(id="auto-bil-settings-modal" title="Настройки авто закупок" size="xl")
         Settings
             
               
