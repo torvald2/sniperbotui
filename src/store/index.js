@@ -29,9 +29,7 @@ export default new Vuex.Store({
       {name:"binance",id:1,balances:[{name:"USDT", value:123456},{name:"BUSDF", value:53494},{name:"DAI",value:"3000"}]},
       {name:"gate.io",id:2,balances:[{name:"USDT", value:33422},{name:"BUSDF", value:42331}]}
 
-    ]
-    
-
+    ],
 
   },
   mutations: {
@@ -72,7 +70,8 @@ export default new Vuex.Store({
   getters: {
     isAuthorized: state => state.token.length > 0,
     profit: () => {return {manualProfit:128456.78, manualBidCount:10, autoBidCount:4, autoProfit:-123458.48}},
-    getExchangeById: state => id => state.exchanges.filter(item=> item.id === id)[0]
+    getExchangeById: state => id => state.exchanges.filter(item=> item.id === id)[0],
+    tickers: ()=> ["BTC","USDT","ETH","BUSDT"]
     
   },
 })

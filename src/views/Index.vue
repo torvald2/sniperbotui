@@ -15,8 +15,16 @@
                   | Включить авто закупки
                 b-button(variant="info" v-b-modal.auto-bil-settings-modal size="sm" ).mr-3
                   b-icon(icon="gear-fill"  )
-                b-button(variant="success" @click="openFilter" size="sm" )
-                  b-icon(icon="filter")
+                b-button(variant="success" v-b-toggle.filter-auto-sales-collapse  size="sm" )
+                  b-icon(icon="funnel")
+          b-row.mt-2
+            b-col
+              b-collapse(id="filter-auto-sales-collapse")
+                FilterAutoBid
+          b-row.mt-2
+            b-col
+              AutoSalesTable
+              
       b-modal(id="auto-bil-settings-modal" title="Настройки авто закупок" size="xl")
         Settings
             
@@ -27,9 +35,6 @@
       b-tab(title="ВСЕ АКТИВЫ")
       b-tab(title="ЛОГ")
       b-tab(title="СТАТИСТИКА")
-
-
-
 </template>
 
 <script>
@@ -37,6 +42,8 @@
 import mainNav from "@/components/Nav.vue"
 import Settings from "@/components/AutoBidSettings.vue"
 import {mapState} from "vuex"
+import FilterAutoBid from "@/components/filterAutoBid.vue"
+import AutoSalesTable from "@/components/AutoSalesTable.vue"
 
 export default {
   name: 'main-page',
@@ -46,7 +53,9 @@ export default {
   },
   components:{
     mainNav,
-    Settings
+    Settings,
+    FilterAutoBid,
+    AutoSalesTable
  
   },
   computed:{
