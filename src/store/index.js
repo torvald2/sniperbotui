@@ -30,6 +30,39 @@ export default new Vuex.Store({
       {name:"gate.io",id:2,balances:[{name:"USDT", value:33422},{name:"BUSDF", value:42331}]}
 
     ],
+    autoBids:[
+      {date:"2021-10-14T16:45:05.435Z",
+      exchange:"Gate.io",pair:{base:"BTC", quote:"USDT", url:"https://www.gate.io/ru/trade/BTC_USDT"},
+      price:null,
+      value:null,
+      profit:null,
+      id: 1,
+      active:true
+      },
+      {date:"2021-10-15T16:45:05.435Z",
+      exchange:"Binance",pair:{base:"ETH", quote:"USDT", url:"https://www.binance.com/ru/trade/ETH_USDT"},
+      price:3.1415,
+      value:45234,
+      profit:1233232,
+      saled_percent:30,
+      profit_percent:13,
+      id:2,
+      active:true
+      
+      },
+      {date:"2021-09-15T16:45:05.435Z",
+      exchange:"Binance",pair:{base:"DOGE", quote:"USDT", url:"https://www.binance.com/ru/trade/ETH_USDT"},
+      price:3.1415,
+      value:45234,
+      profit:-1233232,
+      saled_percent:30,
+      profit_percent:13,
+      id:3,
+      active:false
+      
+      }
+
+  ]
 
   },
   mutations: {
@@ -71,7 +104,14 @@ export default new Vuex.Store({
     isAuthorized: state => state.token.length > 0,
     profit: () => {return {manualProfit:128456.78, manualBidCount:10, autoBidCount:4, autoProfit:-123458.48}},
     getExchangeById: state => id => state.exchanges.filter(item=> item.id === id)[0],
-    tickers: ()=> ["BTC","USDT","ETH","BUSDT"]
+    tickers: ()=> ["BTC","USDT","ETH","BUSDT"],
+    getAutoBids: state => filters => {
+      let result = []
+      if (filters.isActive){
+        result = state.autoBids.filter(item => item.active === filters.isActive)
+      }
+      return result
+    }
     
   },
 })

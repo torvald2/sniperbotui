@@ -2,7 +2,7 @@
   b-card(header-tag="header" footer-tag="footer")
     b-card-text
       b-table(
-      :items="DataProvider"
+      :items="sales"
       :fields="fields"
       :current-page="currentPage"
       show-empty
@@ -26,7 +26,7 @@
           span(v-if="row.item.profit <0").text-danger {{row.item.profit| formatSum}}({{row.item.profit_percent}}%)
         template(#cell(info)="row")
           b-button-group
-            b-button(variant="info" size="sm")
+            b-button(variant="info" size="sm" @click="")
               b-icon(icon="info-square")
             b-button(variant="danger" size="sm")
               b-icon(icon="x-square")
@@ -46,6 +46,7 @@ import Formaters from "../mixins/formaters"
 
 export default {
   name: "AutoSales",
+  props:["sales"],
   data(){
     return {
         currentPage:1,
@@ -53,7 +54,7 @@ export default {
         fields:[
             {key:"date", label:"Дата и время",sortable:true},
             {key:"exchange", label:"Биржа",  sortable:true},
-             {key:"pair", label:"Пара",  },
+            {key:"pair", label:"Пара",},
             {key:"price", label:"Цена закупки",  sortable:true},
             {key:"value", label:"Обьем",  sortable:true},
             {key:"sum", label:"Сумма",  sortable:true},
@@ -66,27 +67,10 @@ export default {
    
   },
   methods:{
+     raiseInfoModal(id){
+         this.$emit("getInfo",id)
+     },
   
-     DataProvider(){
-      return [
-          {date:"2021-10-14T16:45:05.435Z",
-          exchange:"Gate.io",pair:{base:"BTC", quote:"USDT", url:"https://www.gate.io/ru/trade/BTC_USDT"},
-          price:null,
-          value:null,
-          profit:null,
-          },
-          {date:"2021-10-15T16:45:05.435Z",
-          exchange:"Binance",pair:{base:"ETH", quote:"USDT", url:"https://www.binance.com/ru/trade/ETH_USDT"},
-          price:3.1415,
-          value:45234,
-          profit:1233232,
-          saled_percent:30,
-          profit_percent:13
-          
-          }
-
-      ]
-   }
   },
    mixins:[Formaters]
 
