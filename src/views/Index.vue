@@ -11,7 +11,7 @@
                 b-tab(title="Активные")
                   b-collapse(id="filter-auto-sales-collapse")
                     FilterAutoBid
-                  AutoSalesTable(:sales="activeAutoBids")
+                  AutoSalesTable(:sales="activeAutoBids" @getInfo="raiseInfoModal")
                 b-tab(title="Архивные")
                   b-collapse(id="filter-auto-sales-collapse")
                     FilterAutoBid
@@ -28,6 +28,9 @@
               
       b-modal(id="auto-bil-settings-modal" title="Настройки авто закупок" size="xl")
         Settings
+      b-modal(id="auto-bil-info-modal" size="lg")
+        AutoBidInfo(:bid_id="currentBidId")
+
             
               
               
@@ -44,18 +47,21 @@ import Settings from "@/components/AutoBidSettings.vue"
 import {mapState, mapGetters} from "vuex"
 import FilterAutoBid from "@/components/filterAutoBid.vue"
 import AutoSalesTable from "@/components/AutoSalesTable.vue"
+import AutoBidInfo from "@/components/AutoBidInfo.vue"
 
 export default {
   name: 'main-page',
   data(){
     return{
+      currentBidId:0
     }
   },
   components:{
     mainNav,
     Settings,
     FilterAutoBid,
-    AutoSalesTable
+    AutoSalesTable,
+    AutoBidInfo
  
   },
   computed:{
@@ -66,6 +72,12 @@ export default {
     },
     archiveAutoBids(){
       return this.getAutoBids({isActive:false})
+    }
+  },
+  methods:{
+    raiseInfoModal(id){
+      this.currentBidId = id
+      this.$bvModal.show("auto-bil-info-modal")
     }
   },
   beforeMount() {

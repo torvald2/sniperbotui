@@ -52,7 +52,7 @@ b-card
 <script>
 import {mapState,mapGetters} from "vuex"
 export default {
-  name: "Filter",
+  name: "Filterbid",
   data(){
     return{
       status:"",

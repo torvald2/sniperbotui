@@ -26,7 +26,7 @@
           span(v-if="row.item.profit <0").text-danger {{row.item.profit| formatSum}}({{row.item.profit_percent}}%)
         template(#cell(info)="row")
           b-button-group
-            b-button(variant="info" size="sm" @click="")
+            b-button(variant="info" size="sm" @click="raiseInfoModal(row.item.id)")
               b-icon(icon="info-square")
             b-button(variant="danger" size="sm")
               b-icon(icon="x-square")

@@ -37,7 +37,8 @@ export default new Vuex.Store({
       value:null,
       profit:null,
       id: 1,
-      active:true
+      active:true,
+      avaliableValue:1000
       },
       {date:"2021-10-15T16:45:05.435Z",
       exchange:"Binance",pair:{base:"ETH", quote:"USDT", url:"https://www.binance.com/ru/trade/ETH_USDT"},
@@ -47,7 +48,8 @@ export default new Vuex.Store({
       saled_percent:30,
       profit_percent:13,
       id:2,
-      active:true
+      active:true,
+      avaliableValue:100000
       
       },
       {date:"2021-09-15T16:45:05.435Z",
@@ -58,7 +60,8 @@ export default new Vuex.Store({
       saled_percent:30,
       profit_percent:13,
       id:3,
-      active:false
+      active:false,
+      avaliableValue:0
       
       }
 
@@ -111,7 +114,8 @@ export default new Vuex.Store({
         result = state.autoBids.filter(item => item.active === filters.isActive)
       }
       return result
-    }
+    },
+    getBidById: state => id => state.autoBids.filter(item => item.id === id)[0]
     
   },
 })
