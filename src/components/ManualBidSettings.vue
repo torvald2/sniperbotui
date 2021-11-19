@@ -4,23 +4,24 @@ article
     b-col
       b-card(title="Основные")
         b-row
-          b-col(cols="1")
+          b-col
             | Биржа
-          b-col(cols="3")
-            b-form-select(size="sm" :options="exchngeOptions" :v-model="selectedExchange" @change="getExchangeOptions")
-          b-col(cols="2")
-            | Копировать из
-          b-col(cols="3")
-            b-input-group
-              b-form-select(size="sm" :options="exchngeOptions" :v-model="copyFromExchange")
-              b-input-group-append
-                b-button(size="sm" variant="primary" @click="copySettings")
-                  b-icon(icon="files")
+          b-col
+            | Валюта (Базовая)
+          b-col
+            | 
         b-row.mt-1
-          b-col(cols="6")
-            | Количество балансов, на которых торгуется токен
+          b-col
+            b-form-select(size="sm" :options="exchngeOptions" :v-model="currentOpts.exchange")
+          b-col
+            b-form-select(size="sm" :options="selectedExchangeBaseSymbolsOpthions" v-model="currentOpts.baseSymbol")
+          b-col
+            b-form-checkbox(size="sm" v-model="currentOpts.autoSwitchAvalibeBalances") Авто переключение на доступые балансы
+        b-row.mt-1
+          b-col
+            | Токен
           b-col(cols="2")
-            b-form-select(size="sm" :options="balanceQTYOptions" v-model="currentOpts.balancesQty")
+            | Макс. обьем позиции
         b-row.mt-1
           b-col(cols="2")
             | Черный список

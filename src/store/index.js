@@ -8,23 +8,76 @@ export default new Vuex.Store({
   state: {
     token:"",
     login:"",
-    autoBidSettings:{
-      active:true,
-      main:[
-        {exchange:1, param:1, value:55, symbol:"USDT", active:true},
-        {exchange:2, param:2, value:334, symbol:"BUSDF", active:false}
-      ],
-      buyStrategy: {strategy:"max_value", orderType:"limit", execution:"GTC", maxPrice:10, ifPriceDown:"buy", priceDownStrategy:"first_value"},
-      sellStrategy: {orderType:"limit",strategy:"selMaxValue",
-                    sellLevels:[
-                      {id:1, factor:2,percent:50},
-                      {id:2, factor:3, percent:20},
-                      {id:3, factor:4, percent:30}
-                    ]
+    activeAutoBidSettings:true,
+    autoBidSettings:[
+      {
+        exchange:1,
+        balancesQty:1,
+        buyStrategy: {
+          baseSymbol:"BUSD",
+          autoSwitchToAvaibleBalances:true,
+          maxVolume:50,
+          maxVolumeValue:"percent",
+          dontBuyIfManualStraegyPresent:true,
+          strategy:"max_value", 
+          orderType:"limit",
+          execution:"GTC",
+          maxPrice:10,
+          maxSpred:10,
+          maxSpredValue:"percent",
+          ifPriceDown:"buy",
+          mmStrategy:"first_value"  
+          },
+          sellStrategy: {
+            salesEnabled:true,
+            orderType:"limit",
+            strategy:"selMaxValue",
+            sellLevels:[
+                {id:1, factor:2,percent:50},
+                {id:2, factor:3, percent:20},
+                {id:3, factor:4, percent:30}
+            ],
+            sellAllWhenPriceDownValue:5,
+            sellAllWhenPriceDown:true
+         },
+         blackListed:["BTC", "ETH"]
+        
+      },
+    ],
+    manualBidSettngs:[
+      {
+        id:1,
+        exchange:1,
+        baseSymbol:"BTC",
+        autoSwitchAvalibeBalances:true,
+        quoteSymbol:"ETH",
+        maxVolume:50,
+        maxVolumeValue:"percent",
+        disabledWhenAuto:true,
+        buyStrategy:{
+          strategy:"maxValue",
+          orderType:"limit",
+          execution:"GTC",
+          maxPrice:10,
+          maxSpred:1,
+          ifPriceDown:"buy",
+          mmStrategy:"firstOrderVolume"
+        },
+        sellStrategy: {
+          salesEnabled:true,
+          orderType:"limit",
+          strategy:"selMaxValue",
+          sellLevels:[
+              {id:1, factor:2,percent:50},
+              {id:2, factor:3, percent:20},
+              {id:3, factor:4, percent:30}
+          ],
+          sellAllWhenPriceDownValue:5,
+          sellAllWhenPriceDown:true
        },
-       blackListed:["BTC", "ETH"]
-      
-    },
+
+      },
+    ],
     exchanges:[
       {name:"binance",id:1,balances:[{name:"USDT", value:123456},{name:"BUSDF", value:53494},{name:"DAI",value:"3000"}]},
       {name:"gate.io",id:2,balances:[{name:"USDT", value:33422},{name:"BUSDF", value:42331}]}
@@ -115,7 +168,8 @@ export default new Vuex.Store({
       }
       return result
     },
-    getBidById: state => id => state.autoBids.filter(item => item.id === id)[0]
+    getBidById: state => id => state.autoBids.filter(item => item.id === id)[0],
+    getAutoBidSettingsById: state => id => state.autoBidSettings.filter(item => item.exchange === id)
     
   },
 })
