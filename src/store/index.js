@@ -60,6 +60,7 @@ export default new Vuex.Store({
           execution:"GTC",
           maxPrice:10,
           maxSpred:1,
+          maxSpredValue:"percent",
           ifPriceDown:"buy",
           mmStrategy:"firstOrderVolume"
         },
@@ -169,7 +170,8 @@ export default new Vuex.Store({
       return result
     },
     getBidById: state => id => state.autoBids.filter(item => item.id === id)[0],
-    getAutoBidSettingsById: state => id => state.autoBidSettings.filter(item => item.exchange === id)
+    getAutoBidSettingsById: state => id => state.autoBidSettings.filter(item => item.exchange === id),
+    getManualBidById: state => id => state.manualBidSettngs.filter(item => item.id === id)
     
   },
 })

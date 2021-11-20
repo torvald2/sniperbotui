@@ -18,10 +18,8 @@
                   
                 template(#tabs-end).ml-3
                   b-form(inline)
-                    b-form-checkbox(switch :checked="activeAutoBidSettings" ).mr-3
-                      | Включить авто закупки
-                    b-button(variant="info" v-b-modal.auto-bil-settings-modal size="sm" ).mr-3
-                      b-icon(icon="gear-fill"  )
+                    b-button(variant="info" v-b-modal.manual-bil-settings-modal size="sm" ).mr-3
+                      | Создать закупку
                     b-button(variant="success" v-b-toggle.filter-auto-sales-collapse  size="sm" )
                       b-icon(icon="funnel")              
       b-tab(title="АВТО ЗАКУПКИ")
@@ -51,6 +49,8 @@
         Settings
       b-modal(id="auto-bil-info-modal" size="lg")
         AutoBidInfo(:bid_id="currentBidId")
+      b-modal(id="manual-bil-settings-modal" size="lg")
+        ManualSettings
 
             
               
@@ -70,6 +70,7 @@ import FilterAutoBid from "@/components/filterAutoBid.vue"
 import AutoSalesTable from "@/components/AutoSalesTable.vue"
 import AutoBidInfo from "@/components/AutoBidInfo.vue"
 import ManualSales from "@/components/ManualSalesTable.vue"
+import ManualSettings from "@/components/ManualBidSettings.vue"
 export default {
   name: 'main-page',
   data(){
@@ -83,7 +84,8 @@ export default {
     FilterAutoBid,
     AutoSalesTable,
     AutoBidInfo,
-    ManualSales
+    ManualSales,
+    ManualSettings
  
   },
   computed:{

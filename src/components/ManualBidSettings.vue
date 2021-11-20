@@ -20,36 +20,25 @@ article
         b-row.mt-1
           b-col
             | Токен
-          b-col(cols="2")
-            | Макс. обьем позиции
-        b-row.mt-1
-          b-col(cols="2")
-            | Черный список
           b-col
-            b-form-tags(tag-variant="primary" tag-pills v-model="currentOpts.blackListed")
+            | Макс. обьем позиции
+          b-col
+            | 
+        b-row.mt-1
+          b-col
+            b-form-input(size="sm" list="quote_list" v-model="currentOpts.quoteSymbol")
+          b-col
+            b-input-group(size="sm")
+              b-form-input(size="sm" type="number" v-model="currentOpts.maxVolume")
+              b-input-group-append
+                b-form-select(size="sm" :options="maxVolumeValueOptions" v-model="currentOpts.maxVolumeValue")
+          b-col
+            b-form-checkbox(size="sm" v-model="currentOpts.disabledWhenAuto")
+              | Не делать закупку если сработала авто закупка
   b-row
     b-col
       b-card(title="Закупка")
         b-row
-          b-col
-            | Валюта (базовая)
-          b-col
-            b-form-select(size="sm" :options="selectedExchangeBaseSymbolsOpthions" v-model="currentOpts.buyStrategy.baseSymbol")
-          b-col
-            b-form-checkbox(v-model="currentOpts.buyStrategy.autoSwitchToAvaibleBalances" size="sm")
-              | Авто переключение на доступные балансы
-        b-row.mt-1
-          b-col
-            | Макс. обьем позиции
-          b-col
-            b-input-group
-              b-form-input(type="number" v-model="currentOpts.buyStrategy.maxVolume")
-              b-input-group-append
-                b-form-select(:options="maxVolumeValueOptions" v-model="currentOpts.buyStrategy.maxVolumeValue")
-          b-col
-            b-form-checkbox(size="sm")
-              | Не делать закупку если есть ручная закупка
-        b-row.mt-1
           b-col(cols="4")
             | Стратегия
           b-col(cols="4")
@@ -139,10 +128,9 @@ article
 import {  mapState} from 'vuex'
 export default {
   name: "AutoBidSettings",
+  props:["exchange_id"],
   data(){
     return {
-      copyFromExchange:null,
-      selectedExchange:1,
       currentOpts:{},
       maxVolumeValueOptions:[
         {value:"percent",text:"%"},
@@ -199,7 +187,7 @@ export default {
     },
     selectedExchangeBaseSymbolsOpthions(){
       const data = []
-      let selectedEx = this.$store.getters.getExchangeById(this.selectedExchange)
+      let selectedEx = this.$store.getters.getExchangeById(this.currentOpts.exchange)
       if (this.selectedExchange){
         for (let s of selectedEx.balances){
           data.push({value:s.name, text:`${s.name}(${s.value}$)`})
@@ -217,17 +205,7 @@ export default {
       }
       return data
     },
-    balanceQTYOptions(){
-      const data = []
-      if (this.selectedExchange){
-        for (let i=0; i<this.selectedExchangeOptions.balances.length+1; i++){
-          data.push(i)
-        }
-        return data
-      }
-      return []
-      
-    }
+
 
   },
   methods:{
@@ -248,45 +226,46 @@ export default {
       })
     },
     getExchangeOptions(){
-      if (this.selectedExchange){
-       const data = this.$store.getters.getAutoBidSettingsById(this.selectedExchange)
-       if (data.length === 0){
-         this.currentOpts = {
-        exchange:this.selectedExchange,
-        balancesQty:0,
-        buyStrategy: {
-          baseSymbol:"",
-          autoSwitchToAvaibleBalances:false,
-          maxVolume:0,
-          maxVolumeValue:"percent",
-          dontBuyIfManualStraegyPresent:false,
-          strategy:"max_value", 
-          orderType:"limit",
-          execution:"GTC",
-          maxPrice:0,
-          maxSpred:0,
-          maxSpredValue:"percent",
-          ifPriceDown:"buy",
-          mmStrategy:"first_value"  
-          },
-          sellStrategy: {
-            orderType:"limit",
-            strategy:"selMaxValue",
-            sellLevels:[
-                
-            ],
-            sellAllWhenPriceDownValue:0,
-            sellAllWhenPriceDown:false
-         },
-         blackListed:[]
-        
-      }
+      if (this.exchange_id){
+       const data = this.$store.getters.getManualBidById(this.exchange_id)
+       Object.assign(this.currentOpts, data[0])
        }
        else {
-         Object.assign(this.currentOpts, data[0])
+         this.currentOpts =   {
+        id:0,
+        exchange:1,
+        baseSymbol:"BTC",
+        autoSwitchAvalibeBalances:true,
+        quoteSymbol:"ETH",
+        maxVolume:50,
+        maxVolumeValue:"percent",
+        disabledWhenAuto:true,
+        buyStrategy:{
+          strategy:"maxValue",
+          orderType:"limit",
+          execution:"GTC",
+          maxPrice:10,
+          maxSpred:1,
+          maxSpredValue:"percent",
+          ifPriceDown:"buy",
+          mmStrategy:"firstOrderVolume"
+        },
+        sellStrategy: {
+          salesEnabled:true,
+          orderType:"limit",
+          strategy:"selMaxValue",
+          sellLevels:[
+            
+          ],
+          sellAllWhenPriceDownValue:5,
+          sellAllWhenPriceDown:true
+       },
+
+      }
        }
        
-      }
+      
+    
     },
     copySettings(){
       if (this.copyFromExchange){
