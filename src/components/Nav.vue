@@ -26,8 +26,7 @@
 </template>
 
 <script>
-import {DeleteToken} from "../services/cookie"
-import {mapGetters,mapState} from "vuex"
+import {mapGetters,mapState, mapMutations} from "vuex"
 import Formaters from "../mixins/formaters"
 
 
@@ -37,13 +36,14 @@ export default {
   },
   computed: {
     ...mapGetters(["profit"]),
-    ...mapState(["login"])
+    ...mapState(["login"]),
+
    
   
   },
   methods: {
+    ...mapMutations(["clearCreds"]),
     logOut(){
-      DeleteToken()
       this.clearCreds()
       this.$router.push("Login")
     },

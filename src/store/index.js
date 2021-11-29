@@ -1,6 +1,6 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {GetToken, SetToken, DeleteToken} from "../services/cookie"
+import {GetToken, DeleteToken,GetUserData} from "../services/cookie"
 
 Vue.use(Vuex)
 
@@ -8,6 +8,7 @@ export default new Vuex.Store({
   state: {
     token:"",
     login:"",
+    email:"",
     activeAutoBidSettings:true,
     autoBidSettings:[
       {
@@ -79,6 +80,7 @@ export default new Vuex.Store({
 
       },
     ],
+    accounts:[],
     exchanges:[
       {name:"binance",id:1,balances:[{name:"USDT", value:123456},{name:"BUSDF", value:53494},{name:"DAI",value:"3000"}]},
       {name:"gate.io",id:2,balances:[{name:"USDT", value:33422},{name:"BUSDF", value:42331}]}
@@ -123,37 +125,27 @@ export default new Vuex.Store({
 
   },
   mutations: {
-
-    deleteToken(state){
-      state.token = ""
-    },
     
-    addToken(state, data ){
-      state.token = data[0]
-      state.login = data[1]
-    },
     clearCreds(state){
       state.token = ""
       state.login = ""
+      state.email = ""
       DeleteToken()
     },
     readToken(state){
-      let data = GetToken()
-      if (data){
-        state.token = data.token
-        state.login = data.login
+      let token = GetToken()
+      let login = GetUserData()
+      if (token){
+        state.token = token
+        state.login = login.name
+        state.email = login.email
       }
     }, 
-    setToken(state,data){
-      SetToken(data.token)
-      state.token = data.token
-      state.login = data.login
-    },
-    
-  
-
   },
   actions: {
+    // async setUserData(store){
+
+    // }
 
     
   },

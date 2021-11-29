@@ -40,9 +40,8 @@ export default {
     ...mapMutations(["readToken"]),
     async setToken(){
       let data = await GetToken(this.login, this.password)
-      console.log(data)
       if (data.token){
-        SetToken({token:data.token, login:data.name})
+        SetToken(data.token, {login:this.login, name:data.name})
         this.readToken()
         this.$emit("Logined")
         this.$router.push("/")
