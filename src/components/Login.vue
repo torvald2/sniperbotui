@@ -19,7 +19,7 @@
         dismissible
         fade
         :show="showDismissibleAlert"
-        @dismissed="showDismissibleAlert=false") Ошибка входа - Возможно не верный логин или пароль
+        @dismissed="showDismissibleAlert=false") Ошибка входа {{errorMessage}}
 </template>
 
 <script>
@@ -32,19 +32,22 @@ export default {
     return{
       login:"",
       password:"",
-      showDismissibleAlert:false
+      showDismissibleAlert:false,
+      errorMessage:""
     }
   },
   methods:{
     ...mapMutations(["readToken"]),
     async setToken(){
       let data = await GetToken(this.login, this.password)
+      console.log(data)
       if (data.token){
-        SetToken({token:data.token, login:this.login})
+        SetToken({token:data.token, login:data.name})
         this.readToken()
         this.$emit("Logined")
         this.$router.push("/")
       } else {
+        this.errorMessage = data.error
         this.showDismissibleAlert=true
       }
 

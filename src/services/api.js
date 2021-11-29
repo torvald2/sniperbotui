@@ -1,6 +1,6 @@
 
-const apiHost = "https://infinite-fjord-57052.herokuapp.com"
-//const apiHost = false
+//const apiHost = "https://sniperbot.botrex.net"
+const apiHost = false
 function setURL(endpoint){
     if(apiHost){
         return apiHost + endpoint
@@ -9,10 +9,23 @@ function setURL(endpoint){
 }
 
 export async function GetToken(login, password){
-    console.log(login,password)
-    return await new Promise((resolve)=>{
-        resolve({token:"123"})
+    const url = setURL("/api/auth/login")
+    const body = new URLSearchParams({
+        "email":login,
+        "password":password
     })
+    const resp = await fetch(url,{
+        method:"POST",
+        body: body
+    })
+    console.log(resp)
+    const data = await resp.json()
+    if (data.status === true){
+        return {token:data.user.jwtToken, name:data.user.name}
+    }
+    else {
+        return {error:data.message}
+    }
 }
 
 export async function GetState(token){

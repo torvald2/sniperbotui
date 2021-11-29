@@ -1,6 +1,6 @@
 module.exports = {
     devServer: {
-        proxy: "https://infinite-fjord-57052.herokuapp.com"
+        proxy: "https://sniperbot.botrex.net"
     },
     transpileDependencies: ['vuex-persist'],
     configureWebpack: {
