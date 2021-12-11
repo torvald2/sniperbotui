@@ -1,6 +1,6 @@
 
-//const apiHost = "https://sniperbot.botrex.net"
-const apiHost = false
+const apiHost = "https://sniperbot.botrex.net"
+//const apiHost = false
 function setURL(endpoint){
     if(apiHost){
         return apiHost + endpoint
