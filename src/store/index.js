@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
-import {GetToken, DeleteToken,GetUserData} from "../services/cookie"
+import {GetToken, DeleteToken,GetUserData, } from "../services/cookie"
+import {GetAccounts} from "../services/api"
 
 Vue.use(Vuex)
 
@@ -140,12 +141,23 @@ export default new Vuex.Store({
         state.login = login.name
         state.email = login.email
       }
-    }, 
+    },
+    setAccounts(state,accounts){
+      state.accounts = accounts
+    },
+    addAccount(state, account){
+      state.accounts.push(account)
+    }
   },
   actions: {
-    // async setUserData(store){
-
-    // }
+    async getAccounts(store){
+      const accounts = await GetAccounts()
+      if (accounts){
+        store.commit("setAccounts",accounts)
+      } else {
+        throw "Get accounts error"
+      }
+    }
 
     
   },
@@ -163,7 +175,8 @@ export default new Vuex.Store({
     },
     getBidById: state => id => state.autoBids.filter(item => item.id === id)[0],
     getAutoBidSettingsById: state => id => state.autoBidSettings.filter(item => item.exchange === id),
-    getManualBidById: state => id => state.manualBidSettngs.filter(item => item.id === id)
+    getManualBidById: state => id => state.manualBidSettngs.filter(item => item.id === id),
+    accountById: state => id => state.accounts.filter(item =>item._id === id)
     
   },
 })

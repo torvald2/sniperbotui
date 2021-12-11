@@ -18,7 +18,6 @@ export async function GetToken(login, password){
         method:"POST",
         body: body
     })
-    console.log(resp)
     const data = await resp.json()
     if (data.status === true){
         return {token:data.user.jwtToken, 
@@ -30,16 +29,82 @@ export async function GetToken(login, password){
     }
 }
 
-export async function GetSettings(token){
-    const resp = await fetch(setURL("/api/v1/BotState"),{
+export async function GetAccounts(){
+    const resp = await fetch(setURL("/api/botSettings/keys"),{
         method:"GET",
-        headers:{
-            "Authorization":`Token ${token}`
-        }
+        credentials: 'include',
     })
     const data = await resp.json()
+    if (data.status){
+        return data.items
+    }
 
-    return [data, resp.status]
-
+    return null
 }
 
+export async function  NewAccount(params) {
+   const url = setURL("/api/botSettings/keys")
+    const body = new URLSearchParams({
+        "name":params.name,
+        "exchange":params.exchange,
+        "publicKey":params.publicKey,
+        "privateKey":params.privateKey
+    })
+    const resp = await fetch(url,{
+        method:"POST",
+        body: body
+    })
+    const data = await resp.json()
+    if (data.status === true){
+        return {data:data.item}
+    }
+    else {
+        return {error:data.error}
+    }
+}
+
+export async function UpdateAccount(params) {
+    const url = setURL("/api/botSettings/keys")
+    const body = new URLSearchParams({
+        "name":params.name,
+        "exchange":params.exchange,
+        "publicKey":params.publicKey,
+        "privateKey":params.privateKey
+    })
+    const resp = await fetch(url,{
+        method:"POST",
+        body: body
+    })
+    const data = await resp.json()
+    if (data.status === true){
+        return {data:data.item}
+    }
+    else {
+        return {error:data.error}
+    }
+    
+}
+
+export async function GetListings(limit, offset,filter,from, to, sort, sortDesk){
+    let url = `/api/listings?limit=${limit}&offset=${offset}`
+
+    if (filter){
+        url = url + `&filter=${JSON.stringify(filter)}`
+    }
+    if (from){
+        url = url+ `&dateFrom=${from.getTme()}`
+    }
+    if (to){
+        url = url+ `&dateTo=${to.getTme()}}`
+    }
+    if (sort){
+        url = url + `&sort=${sortDesk ? "-":""}${sort}`
+    }
+
+    const resp = await fetch(setURL(url),{
+        method:"GET",
+    })
+    const data = await resp.json()
+    return {data:data, isOk:resp.status === 200}
+   
+}

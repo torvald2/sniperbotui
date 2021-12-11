@@ -2,75 +2,19 @@
   article
     mainNav
     b-tabs( pills content-class="mt-3").m-3
-      b-tab(title="РУЧНЫЕ ЗАКУПКИ")
+      b-tab(title="Листинги")
         article
-          b-row
-            b-col
-              b-tabs
-                b-tab(title="Активные")
-                  b-collapse(id="filter-auto-sales-collapse")
-                    FilterAutoBid
-                  ManualSales(:sales="activeAutoBids" @getInfo="raiseInfoModal")
-                b-tab(title="Архивные")
-                  b-collapse(id="filter-auto-sales-collapse")
-                    FilterAutoBid
-                  ManualSales(:sales="archiveAutoBids")
-                  
-                template(#tabs-end).ml-3
-                  b-form(inline)
-                    b-button(variant="info" v-b-modal.manual-bil-settings-modal size="sm" ).mr-3
-                      | Создать закупку
-                    b-button(variant="success" v-b-toggle.filter-auto-sales-collapse  size="sm" )
-                      b-icon(icon="funnel")              
-      b-tab(title="АВТО ЗАКУПКИ")
-        article
-          b-row
-            b-col
-              b-tabs
-                b-tab(title="Активные")
-                  b-collapse(id="filter-auto-sales-collapse")
-                    FilterAutoBid
-                  AutoSalesTable(:sales="activeAutoBids" @getInfo="raiseInfoModal")
-                b-tab(title="Архивные")
-                  b-collapse(id="filter-auto-sales-collapse")
-                    FilterAutoBid
-                  AutoSalesTable(:sales="archiveAutoBids")
-                  
-                template(#tabs-end).ml-3
-                  b-form(inline)
-                    b-form-checkbox(switch :checked="activeAutoBidSettings" ).mr-3
-                      | Включить авто закупки
-                    b-button(variant="info" v-b-modal.auto-bil-settings-modal size="sm" ).mr-3
-                      b-icon(icon="gear-fill"  )
-                    b-button(variant="success" v-b-toggle.filter-auto-sales-collapse  size="sm" )
-                      b-icon(icon="funnel")              
-              
-      b-modal(id="auto-bil-settings-modal" title="Настройки авто закупок" size="xl")
-        Settings
-      b-modal(id="auto-bil-info-modal" size="lg")
-        AutoBidInfo(:bid_id="currentBidId")
-      b-modal(id="manual-bil-settings-modal" size="lg")
-        ManualSettings
-
-            
-              
-              
-      
-      b-tab(title="ВСЕ АКТИВЫ")
-      b-tab(title="ЛОГ")
-      b-tab(title="СТАТИСТИКА")
+          FutureListings
+          
+ 
 </template>
 
 <script>
 // @ is an alias to /src
 import mainNav from "@/components/Nav.vue"
-import Settings from "@/components/AutoBidSettings.vue"
 import {mapState, mapGetters} from "vuex"
-import FilterAutoBid from "@/components/filterAutoBid.vue"
-import AutoSalesTable from "@/components/AutoSalesTable.vue"
-import AutoBidInfo from "@/components/AutoBidInfo.vue"
-import ManualSales from "@/components/ManualSalesTable.vue"
-import ManualSettings from "@/components/ManualBidSettings.vue"
+import FutureListings from "../components/FutureListings.vue"
+
 export default {
   name: 'main-page',
   data(){
@@ -80,12 +24,8 @@ export default {
   },
   components:{
     mainNav,
-    Settings,
-    FilterAutoBid,
-    AutoSalesTable,
-    AutoBidInfo,
-    ManualSales,
-    ManualSettings
+    FutureListings
+
  
   },
   computed:{

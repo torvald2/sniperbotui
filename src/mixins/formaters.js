@@ -31,6 +31,20 @@ export default {
         formatPrice: function (val) {
             return round(val, 4)
             
+        },
+        formatKey: function (val) {
+            return val.substring(0,5)+"******"
+            
+        },
+        formatTimestampToTime: function (s) {
+                let days = Math.floor(s / 60 / 60 / 24)
+                let hours = Math.floor(s / 60 / 60) % 24
+                let minutes = Math.floor(s / 60) % 60
+                hours = hours<10 ? `0${hours}` : `${hours}`
+                minutes = minutes<10 ? `0${minutes}` : `${minutes}`
+                return `${days} дней ${hours} часов ${minutes} минут`
+
+            
         }
     }
 }

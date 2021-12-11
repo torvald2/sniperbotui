@@ -1,6 +1,7 @@
 <template lang="pug">
   article
     mainNav
+    AccountSettings
 
 
 
@@ -10,8 +11,8 @@
 </template>
 
 <script>
-// @ is an alias to /src
-import mainNav from "@/components/Nav.vue" //S
+import mainNav from "@/components/Nav.vue" 
+import AccountSettings from "../components/Accounts.vue"
 
 
 export default {
@@ -22,6 +23,7 @@ export default {
   },
   components: {
     mainNav,
+    AccountSettings
    
   },
 
