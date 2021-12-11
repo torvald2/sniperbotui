@@ -1,6 +1,6 @@
 
-const apiHost = "https://sniperbot.botrex.net"
-//const apiHost = false
+//const apiHost = "https://sniperbot.botrex.net"
+const apiHost = false
 function setURL(endpoint){
     if(apiHost){
         return apiHost + endpoint
@@ -16,7 +16,8 @@ export async function GetToken(login, password){
     })
     const resp = await fetch(url,{
         method:"POST",
-        body: body
+        body: body,
+        mode:"no-cors"
     })
     const data = await resp.json()
     if (data.status === true){
@@ -33,6 +34,7 @@ export async function GetAccounts(){
     const resp = await fetch(setURL("/api/botSettings/keys"),{
         method:"GET",
         credentials: 'include',
+        mode:"no-cors"
     })
     const data = await resp.json()
     if (data.status){
@@ -52,7 +54,8 @@ export async function  NewAccount(params) {
     })
     const resp = await fetch(url,{
         method:"POST",
-        body: body
+        body: body,
+        mode:"no-cors"
     })
     const data = await resp.json()
     if (data.status === true){
@@ -73,7 +76,8 @@ export async function UpdateAccount(params) {
     })
     const resp = await fetch(url,{
         method:"POST",
-        body: body
+        body: body,
+        mode:"no-cors"
     })
     const data = await resp.json()
     if (data.status === true){
@@ -103,6 +107,7 @@ export async function GetListings(limit, offset,filter,from, to, sort, sortDesk)
 
     const resp = await fetch(setURL(url),{
         method:"GET",
+        mode:"no-cors"
     })
     const data = await resp.json()
     return {data:data, isOk:resp.status === 200}
