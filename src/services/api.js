@@ -1,6 +1,6 @@
 
-const apiHost = "https://sniperbot.botrex.net"
-//const apiHost = false
+//const apiHost = "https://sniperbot.botrex.net"
+const apiHost = false
 function setURL(endpoint){
     if(apiHost){
         return apiHost + endpoint
@@ -29,62 +29,6 @@ export async function GetToken(login, password){
     }
 }
 
-export async function GetAccounts(){
-    const resp = await fetch(setURL("/api/botSettings/keys"),{
-        method:"GET",
-        credentials: 'include',
-    })
-    const data = await resp.json()
-    if (data.status){
-        return data.items
-    }
-
-    return null
-}
-
-export async function  NewAccount(params) {
-   const url = setURL("/api/botSettings/keys")
-    const body = new URLSearchParams({
-        "name":params.name,
-        "exchange":params.exchange,
-        "publicKey":params.publicKey,
-        "privateKey":params.privateKey
-    })
-    const resp = await fetch(url,{
-        method:"POST",
-        body: body,
-    })
-    const data = await resp.json()
-    if (data.status === true){
-        return {data:data.item}
-    }
-    else {
-        return {error:data.error}
-    }
-}
-
-export async function UpdateAccount(params) {
-    const url = setURL("/api/botSettings/keys")
-    const body = new URLSearchParams({
-        "name":params.name,
-        "exchange":params.exchange,
-        "publicKey":params.publicKey,
-        "privateKey":params.privateKey
-    })
-    const resp = await fetch(url,{
-        method:"POST",
-        body: body,
-    })
-    const data = await resp.json()
-    if (data.status === true){
-        return {data:data.item}
-    }
-    else {
-        return {error:data.error}
-    }
-    
-}
-
 export async function GetListings(limit, offset,filter,from, to, sort, sortDesk){
     let url = `/api/listings?limit=${limit}&offset=${offset}`
 
@@ -106,4 +50,40 @@ export async function GetListings(limit, offset,filter,from, to, sort, sortDesk)
     const data = await resp.json()
     return {data:data, isOk:resp.status === 200}
    
+}
+
+
+export async function  GetExchanges() {
+    let url = `/api/exchanges/`
+    const resp = await fetch(setURL(url),{ method:"GET",  credentials: 'include'   })
+    const data = await resp.json()
+    return {data:data.list, isOk:data.status}
+    
+}
+
+export async function  GetKeys() {
+    let url = "/api/botSettings/keys"
+    const resp = await  fetch(setURL(url),{ method:"GET",  credentials: 'include'   })
+    const data = await resp.json()
+    return {data:data.items, isOk:data.status}
+}
+
+export async function GetAccountTypes(id) {
+    let url = `/api/exchanges/accountTypes/${id}`
+    const resp = await  fetch(setURL(url),{ method:"GET",  credentials: 'include'   })
+    const data = await resp.json()
+    if (data.status){
+        return {data:{
+            balance: data.balance.summaryInUSDT,
+            accounts: data.accounts,
+            types:data.types,
+            id:id
+        }
+         }
+}
+    else {
+        return {data:{id:id}}
+    }
+   
+    
 }

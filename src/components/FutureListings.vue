@@ -51,7 +51,6 @@ export default {
      if (data.isOk) {
        const now = Date.now()
        for (let el of data.data.list){
-         console.log(result.length)
          if (pushedBase.indexOf(el.raw.base)==-1){
           if (el.raw.info.buy_start && (el.raw.info.buy_start - (now/1000))>0){
              pushedBase.push(el.raw.base)

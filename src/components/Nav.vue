@@ -3,22 +3,11 @@
     b-navbar-brand(href="/")
       b-icon( icon="arrow-clockwise")
       span.ml-2 Spinner bot
-    b-nav-text
-      | Ручные закупки: {{profit.manualBidCount }}
-      span( v-if="profit.manualProfit >0").text-success ({{profit.manualProfit| formatSum}}) 
-      span(v-if="profit.manualProfit <0").text-danger ({{profit.manualProfit| formatSum}})
-    b-nav-text.ml-3
-      | Авто закупки: {{profit.autoBidCount }}
-      span(v-if="profit.autoProfit >0").text-success ({{profit.autoProfit| formatSum}}) 
-      span( v-if="profit.autoProfit <0").text-danger ({{profit.autoProfit| formatSum}})  
-    b-nav-text.ml-3
-      | Результат итого: 
-      span( v-if="profit.manualProfit +profit.autoProfit >0").text-success ({{profit.autoProfit+profit.manualProfit| formatSum}}) 
-      span(v-if="profit.manualProfit +profit.autoProfit <0").text-danger ({{profit.autoProfit + profit.manualProfit| formatSum}})   
+    
     b-nav-form.ml-auto
-      b-button(variant="info" @click="goToSettings" size="sm").mr-5
-        b-icon(icon="gear-fill" font-scale="1.5" )
-      b-nav-text {{login}}
+      b-button(variant="primary" @click="goToSettings" size="sm").mr-5
+        b-icon(icon="play-fill" font-scale="1.5" )
+        | Создать трейд
       b-button(variant="info" @click="logOut" size="sm").ml-5
         b-icon(icon="box-arrow-right" font-scale="1.5" )
 

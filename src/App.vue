@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import { mapActions, mapMutations} from "vuex";
+import {  mapMutations, mapActions} from "vuex";
 
 export default {
   name: 'layout-page',
@@ -16,9 +16,11 @@ export default {
   },
   methods:{
     ...mapMutations(["readToken"]),
-    ...mapActions(["getAccounts"]),
+    ...mapActions(["getExchangeList","getKeys","getAllAccounts"]),
     async initState(){
-      await this.getAccounts()
+      await this.getExchangeList()
+      await this.getKeys()
+      await this.getAllAccounts()
     }
   },
   async created() {

@@ -1,7 +1,7 @@
 <template lang="pug">
   b-card(header-tag="header" footer-tag="footer")
     template(#header)
-      | Предстоящие
+      | Состоявшиеся
     b-card-text
       b-table(
       :items="DataProvider"
@@ -33,7 +33,7 @@ export default {
   data(){
     return {
         fields:[
-            {key:"created", label:"Обнаружен"},
+            {key:"created", label:"Дата и время"},
             {key:"time_to_start", label:"Время до начала"},
             {key:"exchange", label:"Биржа "},
             {key:"pairs", label:"Пары",},
